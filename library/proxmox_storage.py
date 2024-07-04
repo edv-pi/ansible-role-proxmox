@@ -316,7 +316,12 @@ class ProxmoxStorage(object):
             args['is_mountpoint'] = 1 if self.is_mountpoint else 0
         if self.namespace is not None:
             args['namespace'] = self.namespace
-
+        # CIFS
+        if self.subdir is not None:
+            args['subdir'] = self.subdir
+        if self.domain is not None:
+            args['domain'] = self.domain
+        # end cifs
         if self.maxfiles is not None and 'backup' not in self.content:
             self.module.fail_json(msg="maxfiles is not allowed when there is no 'backup' in content")
         if self.krbd is not None and self.type != 'rbd':
@@ -393,7 +398,7 @@ def main():
         nodes=dict(type='list', required=False, default=None),
         type=dict(default=None, type='str', required=True,
                   choices=["dir", "nfs", "rbd", "lvm", "lvmthin", "cephfs",
-                           "zfspool", "btrfs", "pbs"]),
+                           "zfspool", "btrfs", "pbs","cifs"]),
         # Remaining PVE API arguments (depending on type) past this point
         datastore=dict(default=None, type='str', required=False),
         encryption_key=dict(default=None, type='str', required=False),
@@ -414,7 +419,9 @@ def main():
         sparse=dict(default=None, type='bool', required=False),
         is_mountpoint=dict(default=None, type='bool', required=False),        
         namespace=dict(default=None, type='str', required=False),
-        
+        subdir=dict(default=None, type='str', required=False),
+        domain=dict(default=None, type='str', required=False),
+
     )
 
     module = AnsibleModule(
@@ -429,7 +436,8 @@ def main():
             ["type", "lvmthin", ["vgname", "thinpool", "content"]],
             ["type", "zfspool", ["pool", "content"]],
             ["type", "btrfs", ["path", "content"]],
-            ["type", "pbs", ["server", "username", "password", "datastore"]]
+            ["type", "pbs", ["server", "username", "password", "datastore"]],
+            ["type", "cifs", ["server", "export"]],
         ],
         required_by={
             "master_pubkey": "encryption_key"

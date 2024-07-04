@@ -331,6 +331,8 @@
     thinpool: "{{ item.thinpool | default(omit) }}"
     sparse: "{{ item.sparse | default(omit) }}"
     namespace: "{{ item.namespace | default(omit) }}"
+    domain: "{{ item.domain | default(omit) }}"
+    subdir: "{{ item.subdir | default(omit) }}"
   with_items: "{{ pve_storages }}"
   when: "not pve_cluster_enabled | bool or (pve_cluster_enabled | bool and inventory_hostname == _init_node)"
   tags: storage
