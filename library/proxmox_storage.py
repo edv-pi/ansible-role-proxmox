@@ -227,6 +227,7 @@ class ProxmoxStorage(object):
         self.namespace = module.params['namespace']
         self.domain = module.params['domain']
         self.subdir = module.params['subdir']
+        self.share = module.params['share']
         # Validate the parameters given to us
         fingerprint_re = re.compile('^([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}$')
         if self.fingerprint is not None and not fingerprint_re.match(self.fingerprint):
@@ -327,7 +328,8 @@ class ProxmoxStorage(object):
             self.module.fail_json(msg="maxfiles is not allowed when there is no 'backup' in content")
         if self.krbd is not None and self.type != 'rbd':
             self.module.fail_json(msg="krbd is only allowed with 'rbd' storage type")
-
+        if self.share is not None:
+            args['share'] = self.share
         return args
 
     def create_storage(self):
@@ -422,6 +424,7 @@ def main():
         namespace=dict(default=None, type='str', required=False),
         subdir=dict(default=None, type='str', required=False),
         domain=dict(default=None, type='str', required=False),
+        share=dict(default=None, type='str', required=False),
 
     )
 
@@ -438,7 +441,7 @@ def main():
             ["type", "zfspool", ["pool", "content"]],
             ["type", "btrfs", ["path", "content"]],
             ["type", "pbs", ["server", "username", "password", "datastore"]],
-            ["type", "cifs", ["server", "export"]],
+            ["type", "cifs", ["server", "share"]],
         ],
         required_by={
             "master_pubkey": "encryption_key"
