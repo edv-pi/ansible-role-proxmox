@@ -103,7 +103,10 @@ options:
         description:
             - Specifies whether or not the given path is an externally managed
             mountpoint.
-
+    namespace:
+        required: false
+        description:
+            - Specifies the Namespace that should be used on PBS
 author:
     - Fabien Brachere (@fbrachere)
 '''
@@ -170,6 +173,7 @@ EXAMPLES = '''
     datastore: main
     fingerprint: f2:fb:85:76:d2:2a:c4:96:5c:6e:d8:71:37:36:06:17:09:55:f7:04:e3:74:bb:aa:9e:26:85:92:63:c8:b9:23
     encryption_key: autogen
+    namespace: Top/something
 - name: Create a ZFS storage type
   proxmox_storage:
     name: zfs1
