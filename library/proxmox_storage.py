@@ -225,7 +225,8 @@ class ProxmoxStorage(object):
         self.sparse = module.params['sparse']
         self.is_mountpoint = module.params['is_mountpoint']
         self.namespace = module.params['namespace']
-
+        self.domain = module.params['domain']
+        self.subdir = module.params['subdir']
         # Validate the parameters given to us
         fingerprint_re = re.compile('^([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}$')
         if self.fingerprint is not None and not fingerprint_re.match(self.fingerprint):
