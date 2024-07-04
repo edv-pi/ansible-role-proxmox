@@ -220,6 +220,7 @@ class ProxmoxStorage(object):
         self.thinpool = module.params['thinpool']
         self.sparse = module.params['sparse']
         self.is_mountpoint = module.params['is_mountpoint']
+        self.namespace = module.params['namespace']
 
         # Validate the parameters given to us
         fingerprint_re = re.compile('^([A-Fa-f0-9]{2}:){31}[A-Fa-f0-9]{2}$')
@@ -305,6 +306,8 @@ class ProxmoxStorage(object):
             args['vgname'] = self.vgname
         if self.thinpool is not None:
             args['thinpool'] = self.thinpool
+        if self.namespace is not None:
+            args['namespace'] = self.namespace
         if self.sparse is not None:
             args['sparse'] = 1 if self.sparse else 0
         if self.is_mountpoint is not None:
