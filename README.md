@@ -1,5 +1,6 @@
 [![Galaxy Role](https://img.shields.io/badge/ansible--galaxy-proxmox-blue.svg)](https://galaxy.ansible.com/lae/proxmox/)
-PI: TODO
+PI-TODO
+- Setup OSD management with /dev/disk/by-uuid instead of /dev/sdX
 lae.proxmox
 ===========
 
