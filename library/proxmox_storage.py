@@ -107,6 +107,18 @@ options:
         required: false
         description:
             - Specifies the Namespace that should be used on PBS
+    share:
+        required: false
+        description:
+            - Specifies the CIFS-Share to use
+    subdir:
+        required: false
+            - specifies the folder in the share dir to use for proxmox 
+              (useful to seperate proxmox content from other content)
+    domain:
+        required: false
+            - Specifies Realm to use for NTLM/LDAPS Authentification if using 
+              an AD-Enabled share
 author:
     - Fabien Brachere (@fbrachere)
 '''
@@ -181,6 +193,17 @@ EXAMPLES = '''
     content: [ "images", "rootdir" ]
     pool: rpool/data
     sparse: true
+- name: CIFS-Share
+  proxmox_Storage:
+    name: cifs1
+    server: cifs-host.domain.tld
+    type: cifs
+    content: ["snippets", "vztmpl", "iso" ]
+    share: sharename
+    subdir: /subdir
+    username: user
+    password: supersecurepass
+    domain: addomain.tld
 '''
 
 RETURN = '''
