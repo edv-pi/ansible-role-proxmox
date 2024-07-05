@@ -335,6 +335,8 @@ class ProxmoxStorage(object):
             args['vgname'] = self.vgname
         if self.thinpool is not None:
             args['thinpool'] = self.thinpool
+        if self.namespace is not None:
+            args['namespace'] = self.namespace
         if self.sparse is not None:
             args['sparse'] = 1 if self.sparse else 0
         if self.is_mountpoint is not None:
